@@ -11,10 +11,13 @@ public class InvoicesData {
 
     ArrayList<InvoiceHeader> invoiceHeaders;
 
+    public InvoicesData(){
+
+    }
     public InvoicesData(String invoiceHeaderFilename,String invoiceLineFilename, ArrayList<InvoiceHeader> invoiceHeaders){
         this.setInvoiceHeaderFilename(invoiceHeaderFilename);
         this.setInvoiceLineFilename(invoiceLineFilename);
-        this.setInvoiceHeadersList(invoiceHeaders);
+        this.setInvoiceHeaders(invoiceHeaders);
 
     }
 
@@ -34,11 +37,11 @@ public class InvoicesData {
         this.invoiceLineFilename = invoiceLineFilename;
     }
 
-    public ArrayList<InvoiceHeader> getInvoiceHeadersList() {
+    public ArrayList<InvoiceHeader> getInvoiceHeaders() {
         return invoiceHeaders;
     }
 
-    public void setInvoiceHeadersList(ArrayList<InvoiceHeader> invoiceHeadersList) {
+    public void setInvoiceHeaders(ArrayList<InvoiceHeader> invoiceHeadersList) {
         this.invoiceHeaders = invoiceHeadersList;
     }
 }
