@@ -36,4 +36,12 @@ public class Controller {
     public ArrayList<InvoiceHeader> getInvoiceHeaders(){
         return this.invoicesData.getInvoiceHeaders();
     }
+
+    public String getInvoiceHeaderFilename(){
+        return this.invoicesData.getInvoiceHeaderFilename();
+    }
+
+    public String getInvoiceLineFilename(){
+        return this.invoicesData.getInvoiceLineFilename();
+    }
 }

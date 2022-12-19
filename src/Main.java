@@ -8,12 +8,14 @@ public class Main {
 
         //Singleton Controller
         Controller controller = Controller.getInstance();
-        String invoiceHeaderFilename = "InvoicHeader.csv";
+        String invoiceHeaderFilename = "InvoiceHeader.csv";
         String invoiceLineFilename = "InvoiceLine.csv";
         controller.loadInvoiceData(invoiceHeaderFilename, invoiceLineFilename);
         ArrayList<InvoiceHeader> ihl = controller.getInvoiceHeaders();
-        for (InvoiceHeader ih : ihl) {
-            System.out.println(ih);
+        if(ihl!=null) {
+            for (InvoiceHeader ih : ihl) {
+                System.out.println(ih);
+            }
         }
     }
 }

@@ -12,9 +12,9 @@ public class FileOperations {
     public static ArrayList<InvoiceHeader> readFile(String invoiceHeaderFilename,String invoiceLineFilename){
         //Check for file format ".csv"
         try {
-            if (invoiceHeaderFilename.endsWith(".csv"))
+            if (!invoiceHeaderFilename.endsWith(".csv"))
                 throw new Exception("Wrong file format: InvoiceHeader file should be .csv file");
-            if (invoiceLineFilename.endsWith(".csv"))
+            if (!invoiceLineFilename.endsWith(".csv"))
                 throw new Exception("Wrong file format: InvoiceLine file should be .csv file");
 
             File headerFile = new File(invoiceHeaderFilename);
@@ -206,5 +206,70 @@ public class FileOperations {
             }
         }
 
+    }
+
+    public void writeFile(ArrayList<InvoiceHeader> invoiceHeaders) {
+        Controller controller = Controller.getInstance();
+        String invoiceHeaderFilename = controller.getInvoiceHeaderFilename();
+        String invoiceLineFilename = controller.getInvoiceLineFilename();
+        //Check for file format ".csv"
+        try {
+            if (!invoiceHeaderFilename.endsWith(".csv"))
+                throw new Exception("Wrong file format: InvoiceHeader file should be .csv file");
+            if (!invoiceLineFilename.endsWith(".csv"))
+                throw new Exception("Wrong file format: InvoiceLine file should be .csv file");
+
+            File headerFile = new File(invoiceHeaderFilename);
+            if (!headerFile.exists() || headerFile.isDirectory()) {
+                throw new FileNotFoundException("File not found: InvoiceHeader.csv File not Found");
+            }
+            File lineFile = new File(invoiceLineFilename);
+            if (!lineFile.exists() || lineFile.isDirectory()) {
+                throw new FileNotFoundException("File path not found: InvoiceLine.csv File not Found");
+            }
+            writeInvoiceDate(invoiceHeaderFilename,invoiceLineFilename,invoiceHeaders);
+
+        }
+        catch(FileNotFoundException e){
+            System.err.println(e.getMessage());
+        }
+        catch(Exception e){
+            System.err.println(e.getMessage());
+        }
+    }
+    private static void writeInvoiceDate(String invoiceHeaderFilename,String invoiceLineFilename, ArrayList<InvoiceHeader> invoiceHeaders){
+        try {
+
+            FileWriter invoiceHeaderWriter = new FileWriter(invoiceHeaderFilename);
+            BufferedWriter invoiceHeaderBuffered= new BufferedWriter(invoiceHeaderWriter);
+            FileWriter invoiceLineWriter = new FileWriter(invoiceLineFilename);
+            BufferedWriter invoiceLineBuffered= new BufferedWriter(invoiceLineWriter);
+            for (InvoiceHeader ih: invoiceHeaders){
+                int invoiceNum= ih.getInvoiceNum();
+                invoiceHeaderBuffered.write(""+invoiceNum);
+                invoiceHeaderBuffered.write(",");
+                invoiceHeaderBuffered.write(""+ih.getInvoiceDate());
+                invoiceHeaderBuffered.write(",");
+                invoiceHeaderBuffered.write(""+ih.getCustomerName());
+                invoiceHeaderBuffered.write("\n");
+                invoiceHeaderBuffered.flush();
+                for(InvoiceLine il : ih.getInvoiceLines()){
+                    invoiceLineBuffered.append(""+ih.getInvoiceNum());
+                    invoiceLineBuffered.append(",");
+                    invoiceLineBuffered.append(""+il.getItemName());
+                    invoiceLineBuffered.append(",");
+                    invoiceLineBuffered.append(""+il.getItemPrice());
+                    invoiceLineBuffered.append(",");
+                    invoiceLineBuffered.append(""+il.getCount());
+                    invoiceLineBuffered.append("\n");
+                    invoiceLineBuffered.flush();
+                }
+            }
+
+            invoiceHeaderWriter.close();
+            invoiceLineWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
