@@ -1,21 +1,23 @@
 import controller.Controller;
 import model.InvoiceHeader;
+import view.ConsoleView;
 
 import java.util.ArrayList;
 
 public class Main {
+    /**
+     * Main Function starts the ConsoleView which consequently communicates with the other modules
+     */
     public static void main(String[] args) {
 
-        //Singleton Controller
-        Controller controller = Controller.getInstance();
+        //Default invoice filenames
         String invoiceHeaderFilename = "InvoiceHeader.csv";
         String invoiceLineFilename = "InvoiceLine.csv";
-        controller.loadInvoiceData(invoiceHeaderFilename, invoiceLineFilename);
-        ArrayList<InvoiceHeader> ihl = controller.getInvoiceHeaders();
-        if(ihl!=null) {
-            for (InvoiceHeader ih : ihl) {
-                System.out.println(ih);
-            }
+        //An instance of ConsoleView is created to take over and start the flow
+        ConsoleView consoleView= new ConsoleView();
+        int status=consoleView.loadFiles(invoiceHeaderFilename,invoiceLineFilename);
+        if(status!=-1) {
+            consoleView.showSaveFilePrompt();
         }
     }
 }

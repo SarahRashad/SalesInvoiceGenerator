@@ -3,7 +3,8 @@ package model;
 import java.util.ArrayList;
 
 /**
- * This class holds the data read from input files
+ * POJO class (Only a data holder class)
+ * This class holds the data read from input files and the names of the input files
  */
 public class InvoicesData {
     private String invoiceHeaderFilename;
